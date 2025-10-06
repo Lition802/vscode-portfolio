@@ -1,0 +1,230 @@
+/* --- 全局样式 --- */
+:root {
+  --activity-bar-bg: #333333;
+  --sidebar-bg: #252526;
+  --editor-bg: #1e1e1e;
+  --status-bar-bg: #007acc;
+  --text-color: #cccccc;
+  --accent-color: #007acc;
+  --border-color: #3e3e42;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--editor-bg);
+  color: var(--text-color);
+  overflow: hidden;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* --- 桌面端布局 --- */
+.vscode-container {
+  display: grid;
+  /* 定义三列布局：活动栏(50px) | 侧边栏(250px) | 主内容区(剩余空间) */
+  grid-template-columns: 50px 250px 1fr;
+  grid-template-rows: 1fr;
+  height: 100%;
+}
+
+/* 组件会根据在 App.vue 中的顺序自动填充到网格列中 */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- 其他组件样式 --- */
+.sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sidebar-header p {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.file-explorer .folder p {
+  cursor: pointer;
+}
+
+.file-explorer .folder ul {
+  list-style: none;
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.file-explorer .file {
+  cursor: pointer;
+  padding: 5px 0;
+  border-radius: 3px;
+}
+
+.file-explorer .file:hover {
+  background-color: #37373d;
+}
+
+.file-explorer .file.active {
+  background-color: #37373d;
+}
+
+.close-sidebar-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.editor-tabs {
+  display: flex;
+  flex-shrink: 0;
+  background-color: var(--sidebar-bg);
+  overflow-x: auto;
+}
+
+.editor-tabs .tab {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-right: 1px solid var(--border-color);
+  position: relative;
+  white-space: nowrap;
+}
+
+.editor-tabs .tab.active {
+  background-color: var(--editor-bg);
+}
+
+.editor-tabs .close-tab {
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0 4px;
+}
+
+.editor-tabs .close-tab:hover {
+  background-color: #555;
+}
+
+.editor-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.status-bar {
+  background-color: var(--status-bar-bg);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.status-left,
+.status-right {
+  display: flex;
+}
+
+.status-left p,
+.status-right p {
+  margin: 0 10px;
+}
+
+/* --- 响应式布局 --- */
+@media (max-width: 768px) {
+  .vscode-container {
+    /* 在移动端，禁用网格布局，使用 flex 布局 */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-layout {
+    order: 1;
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  .activity-bar {
+    order: 2;
+    width: 100%;
+    height: 50px;
+    padding-top: 0;
+    border-top: 1px solid var(--border-color);
+    z-index: 500;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .action-button {
+    margin-bottom: 0;
+  }
+
+  .action-button.active::before {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .explorer-icon {
+    display: none;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    transform: translateX(-100%);
+    width: 250px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .close-sidebar-btn {
+    display: block;
+  }
+
+  .status-right .status-item {
+    display: none;
+  }
+
+  .status-right .status-item:first-child {
+    display: block;
+  }
+
+  .editor-content {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
